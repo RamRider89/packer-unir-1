@@ -1,5 +1,6 @@
 # Cache objects
 packer_cache/
+./vscode/*
 
 # Crash log
 crash.log
