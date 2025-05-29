@@ -1,23 +1,15 @@
-echo "Verifying Node.js version..."
+echo "Verificando version de Node.js..."
 node -v
+echo "Verificando version de npm..."
+npm -v
 
-echo "Creating simple HTTP server script..."
+echo "Instalando pm2..."
+npm install pm2@latest -g
+
+echo "Creando un script de HTTP server..."
 mkdir -p /app
-cat <<EOF > /app/server.js
-const http = require('http');
 
-const hostname = '0.0.0.0';
-const port = 3000;
+echo "Copiando node file.."
+cp /tmp/hello.js /app/hello.js
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello from Node.js on Packer!');
-});
-
-server.listen(port, hostname, () => {
-  console.log(\`Server running at http://\${hostname}:\${port}/\`);
-});
-EOF
-
-echo "Provisioning complete."
+echo "Server node complete."

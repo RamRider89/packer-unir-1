@@ -1,12 +1,30 @@
-version: '3.8'
 services:
-  unir-local-uno:
-    restart: always
-    hostname: unir-local-uno
-    image: unir-local-uno:latest
+  node-local-uno:
+    hostname: local-app
+    image: node-unir-uno:latest
     ports:
-      - "80:80"
-      - "3000:3000"
+      - 3000:3000
+    entrypoint: ["pm2-runtime", "/app/hello.js", "-i", "max"]
+    restart: always
+    networks:
+          unir:
+            aliases:
+              - local-app.unir
+
+  nginx-local-uno:
+    hostname: local-proxy
+    image: nginx-unir-uno:latest
+    restart: always
+    ports:
+      - 80:80
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    entrypoint: ["pm2-runtime", "/app/server.js", "-i", "max"]
+          - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+          unir:
+            aliases:
+              - local-proxy.unir
+
+networks:
+  unir:
+    driver: bridge
+    name: unir
